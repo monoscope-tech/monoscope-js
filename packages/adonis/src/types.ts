@@ -1,4 +1,4 @@
-import { Config } from '@apitoolkit/common'
+import { Config } from '@monoscope/common'
 declare module '@adonisjs/core/http' {
   interface HttpContext {
     apitoolkitData: {

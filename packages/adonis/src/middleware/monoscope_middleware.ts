@@ -11,13 +11,13 @@ import {
   Config,
   AxiosConfig,
   setAttributes,
-} from '@apitoolkit/common'
+} from '@monoscope/common'
 
 const defaultConfig = {
   debug: false,
 }
 
-export default class APIToolkitMiddleware {
+export default class MonoscopeMiddleware {
   #config: Config
   constructor() {
     const configs = config.get('apitoolkit', defaultConfig) as Config

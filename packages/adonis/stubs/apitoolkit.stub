@@ -1,8 +1,8 @@
 {{{
-  exports({ to: app.configPath('apitoolkit.ts') })
+  exports({ to: app.configPath('monoscope.ts') })
 }}}
 
-import { defineConfig } from 'apitoolkit-adonis'
+import { defineConfig } from 'monoscope-adonis'
 
 export default defineConfig({
     debug: false,
