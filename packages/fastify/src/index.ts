@@ -8,12 +8,12 @@ import {
   ReportError,
   setAttributes,
   AxiosConfig,
-} from "@apitoolkit/common";
+} from "@monoscope/common";
 import { trace } from "@opentelemetry/api";
 
-export { ReportError as reportError, observeAxios } from "@apitoolkit/common";
+export { ReportError as reportError, observeAxios } from "@monoscope/common";
 
-class APIToolkit {
+class Monoscope {
   #config: Config & { fastify: FastifyInstance };
   constructor(config: Config & { fastify: FastifyInstance }) {
     this.#config = config;
@@ -32,7 +32,7 @@ class APIToolkit {
     tags = [],
     monitorAxios = undefined,
   }: Config & { fastify: FastifyInstance }) {
-    return new APIToolkit({
+    return new Monoscope({
       fastify,
       redactHeaders,
       redactRequestBody,
@@ -169,4 +169,4 @@ class APIToolkit {
     });
   }
 }
-export { APIToolkit };
+export { Monoscope };

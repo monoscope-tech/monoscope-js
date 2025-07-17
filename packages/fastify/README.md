@@ -1,13 +1,13 @@
 <div align="center">
 
-![APItoolkit's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
-![APItoolkit's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
+![Monoscope's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
+![Monoscope's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
 
 ## FastifyJs SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/apitoolkit-fastify.svg?logo=npm)](https://npmjs.com/package/apitoolkit-fastify) [![](https://img.shields.io/npm/dw/apitoolkit-fastify)](https://npmjs.com/package/apitoolkit-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/monoscope-fastify.svg?logo=npm)](https://npmjs.com/package/monoscope-fastify) [![](https://img.shields.io/npm/dw/monoscope-fastify)](https://npmjs.com/package/monoscope-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
-APIToolkit fastify Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
+Monoscope fastify Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
 </div>
 
@@ -16,12 +16,12 @@ APIToolkit fastify Middleware is a middleware that can be used to monitor HTTP r
 Run the following command to install the fastify js package from your projects root:
 
 ```sh
-npm install --save apitoolkit-fastify @opentelemetry/api @opentelemetry/auto-instrumentations-node
+npm install --save monoscope-fastify @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ### Setup Open Telemetry
 
-Setting up open telemetry allows you to send traces, metrics and logs to the APIToolkit platform.
+Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
@@ -35,15 +35,15 @@ node server.js # starting your fastify server
 
 ### HTTP Requests Monitoring
 
-You can monitor http requests using APIToolkit's fastify middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
+You can monitor http requests using Monoscope's fastify middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
 ```js
 import fastify from "fastify";
-import { APIToolkit } from "./index";
+import { Monoscope } from "monoscope-fastify";
 import axios from "axios";
 
 const fastifyServer = fastify({});
-const apitoolkit = APIToolkit.NewClient({
+const monoscope = Monoscope.NewClient({
   fastify: fastifyServer,
   serviceName: "my-service",
   serviceVersion: "1.0.0",
@@ -52,7 +52,7 @@ const apitoolkit = APIToolkit.NewClient({
   monitorAxios: axios, // optional axios instance to monitor all axios requests
 });
 
-apitoolkit.initializeHooks();
+monoscope.initializeHooks();
 
 fastifyServer.get("/", async (request, reply) => {
   const response = await axios.get(
