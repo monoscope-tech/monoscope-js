@@ -9,4 +9,4 @@ export function reportError(error: Error) {
   return ReportError(error, undefined, asyncLocalStorage);
 }
 
-export { withAPItoolkitAppRouter, withAPItoolkitPagesRouter } from "./main";
+export { withMonoscopeAppRouter, withMonoscopePagesRouter } from "./main";

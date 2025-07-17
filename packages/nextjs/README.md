@@ -1,11 +1,11 @@
 <div align="center">
 
-![APItoolkit's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
-![APItoolkit's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
+![Monoscope's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
+![Monoscope's Logo](https://github.com/apitoolkit/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
 
 ## NextJs SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=next)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/apitoolkit-next.svg?logo=npm)](https://npmjs.com/package/apitoolkit-next) [![](https://img.shields.io/npm/dw/apitoolkit-next)](https://npmjs.com/package/apitoolkit-next) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/next?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=next)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-next.svg?logo=npm)](https://npmjs.com/package/monoscope-next) [![](https://img.shields.io/npm/dw/monoscope-next)](https://npmjs.com/package/monoscope-next) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/next?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 APIToolkit NextJs Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -16,7 +16,7 @@ APIToolkit NextJs Middleware is a middleware that can be used to monitor HTTP re
 Run the following command to install the neccessary package from your projects root:
 
 ```sh
-npm install --save apitoolkit-next @vercel/otel @opentelemetry/api
+npm install --save monoscope-next @vercel/otel @opentelemetry/api
 ```
 
 ### Setup Open Telemetry
@@ -47,12 +47,12 @@ export function register() {
 
 After setting up open telemetry. You can monitor http requests using APIToolkit's next middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
-To monitor http requests, wrap your routes with the `withAPItoolkitAppRouter` function if you're using the `app` router or `withAPItoolkitPagesRouter` if you're using the `pages` router.
+To monitor http requests, wrap your routes with the `withMonoscopeAppRouter` function if you're using the `app` router or `withMonoscopePagesRouter` if you're using the `pages` router.
 
 #### Example App Router
 
 ```js
-import { withAPItoolkitAppRouter } from "apitoolkit-next";
+import { withMonoscopeAppRouter } from "monoscope-next";
 import { NextRequest, NextResponse } from "next/server";
 async function handleRequest(req: NextRequest) {
   return NextResponse.json({ message: "hello world" });
@@ -63,7 +63,7 @@ const config = {
   captureResponseBody: true,
   serviceName: "my-service",
 }
-export const GET = withAPItoolkitAppRouter(handleRequest, config);
+export const GET = withMonoscopeAppRouter(handleRequest, config);
 
 ```
 
@@ -71,7 +71,7 @@ export const GET = withAPItoolkitAppRouter(handleRequest, config);
 
 ```js
 import type { NextApiRequest, NextApiResponse } from "next";
-import { withAPItoolkitPagesRouter } from "apitoolkit-next";
+import { withMonoscopePagesRouter } from "monoscope-next";
 
 function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ message: "Hello from Next.js!" });
@@ -83,7 +83,7 @@ const config = {
   serviceName: "my-service",
 }
 
-export default withAPItoolkitPagesRouter(handler, config);
+export default withMonoscopePagesRouter(handler, config);
 ```
 
 #### Quick overview of the configuration parameters
