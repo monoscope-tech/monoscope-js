@@ -4,14 +4,14 @@ import {
   setAttributes,
   Config,
   observeAxiosGlobal,
-} from "@apitoolkit/common";
+} from "@monoscope/common";
 
 import { v4 as uuidv4 } from "uuid";
 import { trace } from "@opentelemetry/api";
 import { Application, NextFunction, Request, Response } from "express";
-export { ReportError as reportError, observeAxios } from "@apitoolkit/common";
+export { ReportError as reportError, observeAxios } from "@monoscope/common";
 
-export class APIToolkit {
+export class Monoscope {
   #config: Config = {};
   constructor(config: Config) {
     this.#config = config;
@@ -23,7 +23,7 @@ export class APIToolkit {
   }
 
   static NewClient(config: Config) {
-    return new APIToolkit(config);
+    return new Monoscope(config);
   }
   public errorMiddleware(
     err: Error,
@@ -47,7 +47,7 @@ export class APIToolkit {
         store.set("AT_errors", []);
       }
       if (this.#config.debug) {
-        console.log("APIToolkit: expressMiddleware called");
+        console.log("Monoscope: expressMiddleware called");
       }
 
       let respBody: any = "";

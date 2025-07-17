@@ -1,5 +1,5 @@
 <p>
-<img src="https://apitoolkit.io/assets/img/logo-full.svg" alt="APIToolkit" width="250px" />
+<img src="https://apitoolkit.io/assets/img/logo-full.svg" alt="Monoscope" width="250px" />
 </p>
 
 <div align="center">
@@ -9,9 +9,9 @@
 
 ## ExpressJS SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/apitoolkit-express.svg?logo=npm)](https://npmjs.com/package/apitoolkit-express) [![](https://img.shields.io/npm/dw/apitoolkit-express)](https://npmjs.com/package/apitoolkit-expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/monoscope-express.svg?logo=npm)](https://npmjs.com/package/monoscope-express) [![](https://img.shields.io/npm/dw/monoscope-express)](https://npmjs.com/package/apitoolkit-expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
-APIToolkit Express Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
+Monoscope Express Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
 </div>
 
@@ -20,12 +20,12 @@ APIToolkit Express Middleware is a middleware that can be used to monitor HTTP r
 Run the following command to install the express js package from your projects root:
 
 ```sh
-npm install --save apitoolkit-express @opentelemetry/api @opentelemetry/auto-instrumentations-node
+npm install --save monoscope-express @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ### Setup Open Telemetry
 
-Setting up open telemetry allows you to send traces, metrics and logs to the APIToolkit platform.
+Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 
 ```sh
 export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
@@ -39,15 +39,15 @@ node server.js # starting your express server
 
 ### HTTP Requests Monitoring
 
-You can monitor http requests using APIToolkit's express middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
+You can monitor http requests using Monoscope's express middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
 ```js
 import * as express from "express";
-import { APIToolkit } from "./index";
+import { Monoscope } from "./index";
 import axios from "axios";
 
 const app = express();
-const apitoolkitClient = APIToolkit.NewClient({
+const apitoolkitClient = Monoscope.NewClient({
   serviceName: "my-service",
   serviceVersion: "1.0.0",
   tags: ["env:dev"],
