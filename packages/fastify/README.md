@@ -5,7 +5,7 @@
 
 ## FastifyJs SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/apitoolkit-sdk) [![](https://img.shields.io/npm/v/monoscope-fastify.svg?logo=npm)](https://npmjs.com/package/monoscope-fastify) [![](https://img.shields.io/npm/dw/monoscope-fastify)](https://npmjs.com/package/monoscope-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-fastify.svg?logo=npm)](https://npmjs.com/package/monoscope-fastify) [![](https://img.shields.io/npm/dw/monoscope-fastify)](https://npmjs.com/package/monoscope-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 Monoscope fastify Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
