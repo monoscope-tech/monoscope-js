@@ -1,5 +1,5 @@
 {
-  "name": "apitoolkit-fastify",
+  "name": "monoscope-fastify",
   "version": "3.6.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
 
   },
   "dependencies": {
-    "@apitoolkit/common": "workspace:*",
+    "@monoscope/common": "workspace:*",
     "uuid": "^11.0.3"
   },
   "keywords": [],

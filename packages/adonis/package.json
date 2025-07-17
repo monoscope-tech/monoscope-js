@@ -1,5 +1,5 @@
 {
-  "name": "apitoolkit-adonis",
+  "name": "monoscope-adonis",
   "description": "",
   "version": "3.5.7",
   "main": "index.js",
@@ -15,8 +15,8 @@
   ],
   "exports": {
     ".": "./dist/index.js",
-    "./apitoolkit_provider": "./dist/providers/apitoolkit_provider.js",
-    "./apitoolkit_middleware": "./dist/src/middleware/apitoolkit_middleware.js"
+    "./monoscope": "./dist/providers/monoscope_provider.js",
+    "./monoscope_middleware": "./dist/src/middleware/monoscope_middleware.js"
   },
   "scripts": {
     "pretest": "pnpm run lint",

@@ -1,5 +1,5 @@
 {
-  "name": "apitoolkit-express",
+  "name": "monoscope-express",
   "version": "3.6.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@apitoolkit/common": "workspace:*",
+    "@monoscope/common": "workspace:*",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

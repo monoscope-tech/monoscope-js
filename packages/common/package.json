@@ -1,5 +1,5 @@
 {
-  "name": "@apitoolkit/common",
+  "name": "@monoscope/common",
   "version": "1.0.9",
   "description": "",
   "main": "dist/index.js",

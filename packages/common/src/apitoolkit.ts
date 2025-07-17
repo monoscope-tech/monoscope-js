@@ -139,7 +139,7 @@ export function ReportError(
   nextAsyncLocalStorage?: AsyncLocalStorage<Map<string, any>>
 ) {
   const outsideContextMsg =
-    "APIToolkit: ReportError used outside of the APIToolkit middleware's scope. Use the APIToolkitClient.ReportError instead, if you're not in a web context.";
+    "Monoscope: ReportError used outside of the Monoscope middleware's scope. Use the MonoscopeClient.ReportError instead, if you're not in a web context.";
 
   const resp = normaliseError(error);
   if (!resp) {
