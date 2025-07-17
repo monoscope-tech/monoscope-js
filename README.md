@@ -7,7 +7,7 @@
 
 [![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=javascript)](https://github.com/topics/apitoolkit-sdk) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![Monoscope Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
-API Toolkit is a comprehensive solution for managing APIs and web services, designed to streamline workflows for both engineers and customer support teams. This repository houses all supported JavaScript web frameworks, organized under the /packages directory.
+Monoscope is a comprehensive solution for managing APIs and web services, designed to streamline workflows for both engineers and customer support teams. This repository houses all supported JavaScript web frameworks, organized under the /packages directory.
 
 </div>
 
