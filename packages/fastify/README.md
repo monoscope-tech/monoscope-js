@@ -5,7 +5,7 @@
 
 ## FastifyJs SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-fastify.svg?logo=npm)](https://npmjs.com/package/monoscope-fastify) [![](https://img.shields.io/npm/dw/monoscope-fastify)](https://npmjs.com/package/monoscope-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=fastify)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-fastify.svg?logo=npm)](https://npmjs.com/package/monoscope-fastify) [![](https://img.shields.io/npm/dw/monoscope-fastify)](https://npmjs.com/package/monoscope-fastify) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/fastify?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 Monoscope fastify Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -24,13 +24,10 @@ npm install --save monoscope-fastify @opentelemetry/api @opentelemetry/auto-inst
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 
 ```sh
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
-export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
-export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
-export NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
-
-node server.js # starting your fastify server
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
+OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
+OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
 ### HTTP Requests Monitoring
@@ -38,6 +35,8 @@ node server.js # starting your fastify server
 You can monitor http requests using Monoscope's fastify middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
 ```js
+import "dotenv/config";
+import "@opentelemetry/auto-instrumentations-node/register";
 import fastify from "fastify";
 import { Monoscope } from "monoscope-fastify";
 import axios from "axios";

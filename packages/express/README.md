@@ -4,12 +4,12 @@
 
 <div align="center">
 
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
 
 ## ExpressJS SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-express.svg?logo=npm)](https://npmjs.com/package/monoscope-express) [![](https://img.shields.io/npm/dw/monoscope-express)](https://npmjs.com/package/apitoolkit-expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-express.svg?logo=npm)](https://npmjs.com/package/monoscope-express) [![](https://img.shields.io/npm/dw/monoscope-express)](https://npmjs.com/package/monoscope-expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 Monoscope Express Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -28,13 +28,10 @@ npm install --save monoscope-express @opentelemetry/api @opentelemetry/auto-inst
 Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
 
 ```sh
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
-export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
-export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
-export NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
-
-node server.js # starting your express server
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
+OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
+OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
 ### HTTP Requests Monitoring
@@ -42,12 +39,14 @@ node server.js # starting your express server
 You can monitor http requests using Monoscope's express middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
 ```js
+import "dotenv/config";
+import "@opentelemetry/auto-instrumentations-node/register";
 import * as express from "express";
 import { Monoscope } from "./index";
 import axios from "axios";
 
 const app = express();
-const apitoolkitClient = Monoscope.NewClient({
+const monoscopeClient = Monoscope.NewClient({
   serviceName: "my-service",
   serviceVersion: "1.0.0",
   tags: ["env:dev"],
@@ -55,7 +54,7 @@ const apitoolkitClient = Monoscope.NewClient({
 });
 
 // add the middleware to for request monitoring
-app.use(apitoolkitClient.middleware);
+app.use(monoscopeClient.middleware);
 
 app.get("/", async (req, res) => {
   const r = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
@@ -63,7 +62,7 @@ app.get("/", async (req, res) => {
 });
 
 // automatically report unhandled errors along with the request data
-app.use(apitoolkitClient.errorMiddleware);
+app.use(monoscopeClient.errorMiddleware);
 
 app.listen(3000, () => {
   console.log("Example app listening on port 3000!");

@@ -1,13 +1,13 @@
 <div align="center">
 
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
-![APItoolkit's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-white.svg?raw=true#gh-dark-mode-only)
+![Monoscope's Logo](https://github.com/monoscope-tech/.github/blob/main/images/logo-black.svg?raw=true#gh-light-mode-only)
 
 ## AdonisJS SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=adonisjs)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-adonis.svg?logo=npm)](https://npmjs.com/package/monoscope-adonis) [![](https://img.shields.io/npm/dw/monoscope-adonis)](https://npmjs.com/package/monoscope-adonis) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/adonisjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=adonisjs)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-adonis.svg?logo=npm)](https://npmjs.com/package/monoscope-adonis) [![](https://img.shields.io/npm/dw/monoscope-adonis)](https://npmjs.com/package/monoscope-adonis) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![Monoscope Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/adonisjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
-APIToolkit Adonis Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
+Monoscope Adonis Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
 </div>
 
@@ -32,21 +32,19 @@ npm install --save monoscope-adonis @opentelemetry/api @opentelemetry/auto-instr
 
 ### Setup Open Telemetry
 
-Setting up open telemetry allows you to send traces, metrics and logs to the APIToolkit platform.
+Setting up open telemetry allows you to send traces, metrics and logs to the Monoscope platform.
+Add the following enviroment variables.
 
 ```sh
-export OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
-export OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
-export OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
-export OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
-export NODE_OPTIONS="--require @opentelemetry/auto-instrumentations-node/register"
-
-node ace run dev server.js # starting your adonis server
+OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4317"
+OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
+OTEL_RESOURCE_ATTRIBUTES=at-project-key="<YOUR_API_KEY>" # Adds your API KEY to the resource.
+OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTelemetry exporter.
 ```
 
 ### HTTP Requests Monitoring
 
-You can monitor http requests using APIToolkit's Adonis middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
+You can monitor http requests using Monoscope's Adonis middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
 First configure the `monoscope-adonis` sdk by running the following command:
 
@@ -57,10 +55,11 @@ node ace configure monoscope-adonis
 Then, register the middleware by adding the `monoscope-adonis` client to your global middleware list in the `start/kernel.js|ts` file like so:
 
 ```js
+import '@opentelemetry/auto-instrumentations-node/register'
 import server from '@adonisjs/core/services/server'
-import APIToolkit from 'monoscope-adonis'
+import Monoscope from 'monoscope-adonis'
 
-const client = new APIToolkit()
+const client = new Monoscope()
 
 server.use([
   () => import('#middleware/container_bindings_middleware'),
