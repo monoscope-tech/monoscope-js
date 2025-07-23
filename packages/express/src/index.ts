@@ -40,7 +40,7 @@ export class Monoscope {
       const msg_id = uuidv4();
       const span = trace
         .getTracer(this.#config.serviceName || "")
-        .startSpan("apitoolkit-http-span");
+        .startSpan("monoscope-server");
 
       if (store) {
         store.set("AT_msg_id", msg_id);

@@ -89,7 +89,7 @@ class Monoscope {
         try {
           const span = trace
             .getTracer(this.#config.serviceName || "")
-            .startSpan("apitoolkit-http-span");
+            .startSpan("monoscope-server");
           asyncLocalStorage.getStore()!.set("AT_span", span);
           asyncLocalStorage.getStore()!.set("AT_errors", []);
           const msg_id: string = uuidv4();

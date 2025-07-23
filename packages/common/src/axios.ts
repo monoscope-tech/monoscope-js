@@ -18,7 +18,7 @@ declare module "axios" {
 export const onRequest = (
   config: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
-  const span = trace.getTracer("").startSpan("apitoolkit-http-span");
+  const span = trace.getTracer("").startSpan("monoscope-client");
   config.meta = { span };
   return config;
 };

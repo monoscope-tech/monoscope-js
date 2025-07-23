@@ -46,7 +46,7 @@ export default class MonoscopeMiddleware {
         const msgId = uuidv4()
         const span = trace
           .getTracer(this.#config.serviceName || '')
-          .startSpan('apitoolkit-http-span')
+          .startSpan('monoscope-server')
 
         const ctx = HttpContext.get()
         if (ctx) {
