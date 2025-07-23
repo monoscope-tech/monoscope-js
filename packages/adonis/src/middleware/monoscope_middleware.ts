@@ -1,7 +1,7 @@
 import { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import { v4 as uuidv4 } from 'uuid'
-import { trace } from '@opentelemetry/api'
+import { SpanKind, trace } from '@opentelemetry/api'
 
 import config from '@adonisjs/core/services/config'
 import {
@@ -46,7 +46,7 @@ export default class MonoscopeMiddleware {
         const msgId = uuidv4()
         const span = trace
           .getTracer(this.#config.serviceName || '')
-          .startSpan('monoscope-server')
+          .startSpan('monoscope-server', { kind: SpanKind.SERVER })
 
         const ctx = HttpContext.get()
         if (ctx) {

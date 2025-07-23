@@ -7,7 +7,7 @@ import {
 } from "@monoscope/common";
 
 import { v4 as uuidv4 } from "uuid";
-import { trace } from "@opentelemetry/api";
+import { SpanKind, trace } from "@opentelemetry/api";
 import { Application, NextFunction, Request, Response } from "express";
 export { ReportError as reportError, observeAxios } from "@monoscope/common";
 
@@ -40,7 +40,7 @@ export class Monoscope {
       const msg_id = uuidv4();
       const span = trace
         .getTracer(this.#config.serviceName || "")
-        .startSpan("monoscope-server");
+        .startSpan("monoscope-server", { kind: SpanKind.SERVER });
 
       if (store) {
         store.set("AT_msg_id", msg_id);

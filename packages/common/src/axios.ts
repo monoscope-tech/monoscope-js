@@ -7,7 +7,7 @@ import axios, {
 import { v4 as uuidv4 } from "uuid";
 
 import { asyncLocalStorage, Config, setAttributes } from "./apitoolkit";
-import { trace } from "@opentelemetry/api";
+import { SpanKind, trace } from "@opentelemetry/api";
 
 declare module "axios" {
   export interface InternalAxiosRequestConfig {
@@ -18,7 +18,9 @@ declare module "axios" {
 export const onRequest = (
   config: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
-  const span = trace.getTracer("").startSpan("monoscope-client");
+  const span = trace
+    .getTracer("")
+    .startSpan("monoscope-client", { kind: SpanKind.CLIENT });
   config.meta = { span };
   return config;
 };

@@ -9,7 +9,7 @@ import {
   setAttributes,
   AxiosConfig,
 } from "@monoscope/common";
-import { trace } from "@opentelemetry/api";
+import { SpanKind, trace } from "@opentelemetry/api";
 
 export { ReportError as reportError, observeAxios } from "@monoscope/common";
 
@@ -89,7 +89,7 @@ class Monoscope {
         try {
           const span = trace
             .getTracer(this.#config.serviceName || "")
-            .startSpan("monoscope-server");
+            .startSpan("monoscope-server", { kind: SpanKind.SERVER });
           asyncLocalStorage.getStore()!.set("AT_span", span);
           asyncLocalStorage.getStore()!.set("AT_errors", []);
           const msg_id: string = uuidv4();
