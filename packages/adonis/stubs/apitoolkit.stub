@@ -2,7 +2,7 @@
   exports({ to: app.configPath('monoscope.ts') })
 }}}
 
-import { defineConfig } from 'monoscope-adonis'
+import { defineConfig } from '@monoscopetech/adonis'
 
 export default defineConfig({
     debug: false,

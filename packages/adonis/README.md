@@ -5,7 +5,7 @@
 
 ## AdonisJS SDK
 
-[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=adonisjs)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-adonis.svg?logo=npm)](https://npmjs.com/package/monoscope-adonis) [![](https://img.shields.io/npm/dw/monoscope-adonis)](https://npmjs.com/package/monoscope-adonis) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![Monoscope Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/adonisjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=adonisjs)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/@monoscopetech/adonis.svg?logo=npm)](https://npmjs.com/package/@monoscopetech/adonis) [![](https://img.shields.io/npm/dw/@monoscopetech/adonis)](https://npmjs.com/package/@monoscopetech/adonis) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![Monoscope Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/adonisjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 Monoscope Adonis Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -27,7 +27,7 @@ Monoscope Adonis Middleware is a middleware that can be used to monitor HTTP req
 Run the following command to install the adonis js package from your projects root:
 
 ```sh
-npm install --save monoscope-adonis @opentelemetry/api @opentelemetry/auto-instrumentations-node
+npm install --save @monoscopetech/adonis @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ### Setup Open Telemetry
@@ -46,18 +46,18 @@ OTEL_EXPORTER_OTLP_PROTOCOL="grpc" #Specifies the protocol to use for the OpenTe
 
 You can monitor http requests using Monoscope's Adonis middleware, this allows you to monitor all your http requests. including headers, response time, response status code, request body, response body, etc.
 
-First configure the `monoscope-adonis` sdk by running the following command:
+First configure the `@monoscopetech/adonis` sdk by running the following command:
 
 ```sh
-node ace configure monoscope-adonis
+node ace configure @monoscopetech/adonis
 ```
 
-Then, register the middleware by adding the `monoscope-adonis` client to your global middleware list in the `start/kernel.js|ts` file like so:
+Then, register the middleware by adding the `@monoscopetech/adonis` client to your global middleware list in the `start/kernel.js|ts` file like so:
 
 ```js
 import '@opentelemetry/auto-instrumentations-node/register'
 import server from '@adonisjs/core/services/server'
-import Monoscope from 'monoscope-adonis'
+import Monoscope from '@monoscopetech/adonis'
 
 const client = new Monoscope()
 
@@ -72,7 +72,7 @@ server.use([
 Then, create an `monoscope.js|ts` file in the `/conf` directory and export the `defineConfig` object with some properties like so:
 
 ```js
-import { defineConfig } from 'monoscope-adonis'
+import { defineConfig } from '@monoscopetech/adonis'
 
 export default defineConfig({
   captureRequestBody: true,
@@ -93,7 +93,7 @@ To contribute to the development of this SDK or request help from the community 
 
 - Read our [Contributors Guide](https://github.com/monoscope-tech/.github/blob/main/CONTRIBUTING.md).
 - Join our community [Discord Server](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme).
-- Create a [new issue](https://github.com/monoscope-tech/monoscope-adonis/issues/new/choose) in this repository.
+- Create a [new issue](https://github.com/monoscope-tech/@monoscopetech/adonis/issues/new/choose) in this repository.
 
 ## License
 

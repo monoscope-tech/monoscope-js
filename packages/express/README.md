@@ -9,7 +9,7 @@
 
 ## ExpressJS SDK
 
-[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-express.svg?logo=npm)](https://npmjs.com/package/monoscope-express) [![](https://img.shields.io/npm/dw/monoscope-express)](https://npmjs.com/package/monoscope-expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![Monoscope SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=express)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/@monoscopetech/express.svg?logo=npm)](https://npmjs.com/package/@monoscopetech/express) [![](https://img.shields.io/npm/dw/@monoscopetech/express)](https://npmjs.com/package/@monoscopetech/expresss) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/expressjs?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 Monoscope Express Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -20,7 +20,7 @@ Monoscope Express Middleware is a middleware that can be used to monitor HTTP re
 Run the following command to install the express js package from your projects root:
 
 ```sh
-npm install --save monoscope-express @opentelemetry/api @opentelemetry/auto-instrumentations-node
+npm install --save @monoscopetech/express @opentelemetry/api @opentelemetry/auto-instrumentations-node
 ```
 
 ### Setup Open Telemetry

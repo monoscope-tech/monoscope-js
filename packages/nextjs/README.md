@@ -5,7 +5,7 @@
 
 ## NextJs SDK
 
-[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=next)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/monoscope-next.svg?logo=npm)](https://npmjs.com/package/monoscope-next) [![](https://img.shields.io/npm/dw/monoscope-next)](https://npmjs.com/package/monoscope-next) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/next?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
+[![APItoolkit SDK](https://img.shields.io/badge/APItoolkit-SDK-0068ff?logo=next)](https://github.com/topics/monoscope-sdk) [![](https://img.shields.io/npm/v/@monoscopetech/next.svg?logo=npm)](https://npmjs.com/package/@monoscopetech/next) [![](https://img.shields.io/npm/dw/@monoscopetech/next)](https://npmjs.com/package/@monoscopetech/next) [![Join Discord Server](https://img.shields.io/badge/Chat-Discord-7289da)](https://apitoolkit.io/discord?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme) [![APItoolkit Docs](https://img.shields.io/badge/Read-Docs-0068ff)](https://apitoolkit.io/docs/sdks/nodejs/next?utm_campaign=devrel&utm_medium=github&utm_source=sdks_readme)
 
 APIToolkit NextJs Middleware is a middleware that can be used to monitor HTTP requests. It is provides additional functionalities on top of the open telemetry instrumentation which creates a custom span for each request capturing details about the request including request and response bodies.
 
@@ -16,7 +16,7 @@ APIToolkit NextJs Middleware is a middleware that can be used to monitor HTTP re
 Run the following command to install the neccessary package from your projects root:
 
 ```sh
-npm install --save monoscope-next @vercel/otel @opentelemetry/api
+npm install --save @monoscopetech/next @vercel/otel @opentelemetry/api
 ```
 
 ### Setup Open Telemetry
@@ -52,7 +52,7 @@ To monitor http requests, wrap your routes with the `withMonoscopeAppRouter` fun
 #### Example App Router
 
 ```js
-import { withMonoscopeAppRouter } from "monoscope-next";
+import { withMonoscopeAppRouter } from "@monoscopetech/next";
 import { NextRequest, NextResponse } from "next/server";
 async function handleRequest(req: NextRequest) {
   return NextResponse.json({ message: "hello world" });
@@ -71,7 +71,7 @@ export const GET = withMonoscopeAppRouter(handleRequest, config);
 
 ```js
 import type { NextApiRequest, NextApiResponse } from "next";
-import { withMonoscopePagesRouter } from "monoscope-next";
+import { withMonoscopePagesRouter } from "@monoscopetech/next";
 
 function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).json({ message: "Hello from Next.js!" });

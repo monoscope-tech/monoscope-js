@@ -1,8 +1,8 @@
-The monoscope package `monoscope-adonis` has been successfully configured. Before you begin, please register the middleware inside your `start/kernel.ts` file.
+The monoscope package `@monoscopetech/adonis` has been successfully configured. Before you begin, please register the middleware inside your `start/kernel.ts` file.
 
 ```ts
 import server from '@adonisjs/core/services/server'
-import Monoscope from 'monoscope-adonis'
+import Monoscope from '@monoscopetech/adonis'
 
 const client = new Monoscope()
 
