@@ -11,7 +11,7 @@ import {
   Config,
   AxiosConfig,
   setAttributes,
-} from '@monoscope/common'
+} from '@monoscopetech/common'
 
 const defaultConfig = {
   debug: false,

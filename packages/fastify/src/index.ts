@@ -8,10 +8,13 @@ import {
   ReportError,
   setAttributes,
   AxiosConfig,
-} from "@monoscope/common";
+} from "@monoscopetech/common";
 import { SpanKind, trace } from "@opentelemetry/api";
 
-export { ReportError as reportError, observeAxios } from "@monoscope/common";
+export {
+  ReportError as reportError,
+  observeAxios,
+} from "@monoscopetech/common";
 
 class Monoscope {
   #config: Config & { fastify: FastifyInstance };

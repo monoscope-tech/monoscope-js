@@ -4,12 +4,15 @@ import {
   setAttributes,
   Config,
   observeAxiosGlobal,
-} from "@monoscope/common";
+} from "@monoscopetech/common";
 
 import { v4 as uuidv4 } from "uuid";
 import { SpanKind, trace } from "@opentelemetry/api";
 import { Application, NextFunction, Request, Response } from "express";
-export { ReportError as reportError, observeAxios } from "@monoscope/common";
+export {
+  ReportError as reportError,
+  observeAxios,
+} from "@monoscopetech/common";
 
 export class Monoscope {
   #config: Config = {};

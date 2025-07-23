@@ -1,6 +1,6 @@
 {
-  "name": "monoscope-express",
-  "version": "3.6.2",
+  "name": "@monoscopetech/express",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -10,8 +10,11 @@
     "build": "tsc --build",
     "prepublishOnly": "pnpm run build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
-    "@monoscope/common": "workspace:*",
+    "@monoscopetech/common": "workspace:*",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

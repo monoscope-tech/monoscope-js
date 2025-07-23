@@ -1,9 +1,9 @@
 import MonoscopeMiddleware from '../src/middleware/monoscope_middleware.js'
-export { ReportError as reportError, observeAxios } from '@monoscope/common'
+export { ReportError as reportError, observeAxios } from '@monoscopetech/common'
 import { configProvider } from '@adonisjs/core'
 import { RuntimeException } from '@poppinss/utils'
 import type { ApplicationService } from '@adonisjs/core/types'
-import { Config } from '@monoscope/common'
+import { Config } from '@monoscopetech/common'
 
 declare module '@adonisjs/core/types' {
   export interface ContainerBindings {
