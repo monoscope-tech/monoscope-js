@@ -89,7 +89,7 @@ class Monoscope {
         try {
           const span = trace
             .getTracer(this.#config.serviceName || "")
-            .startSpan("monoscope-server", { kind: SpanKind.SERVER });
+            .startSpan("monoscope.http", { kind: SpanKind.SERVER });
           asyncLocalStorage.getStore()!.set("AT_span", span);
           asyncLocalStorage.getStore()!.set("AT_errors", []);
           const msg_id: string = uuidv4();

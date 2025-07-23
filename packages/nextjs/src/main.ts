@@ -19,7 +19,7 @@ export function withMonoscopeAppRouter(
   return async (request: Request | NextRequest, params?: unknown) => {
     const span = trace
       .getTracer(config?.serviceName || "")
-      .startSpan("monoscope-server", { kind: SpanKind.SERVER });
+      .startSpan("monoscope.http", { kind: SpanKind.SERVER });
     return asyncLocalStorage.run(new Map(), async () => {
       const store = asyncLocalStorage.getStore();
       const msg_id = uuidv4();
@@ -72,7 +72,7 @@ export function withMonoscopePagesRouter(
   return async (request: NextApiRequest, response: NextApiResponse) => {
     const span = trace
       .getTracer(config?.serviceName || "")
-      .startSpan("monoscope-server", { kind: SpanKind.SERVER });
+      .startSpan("monoscope.http", { kind: SpanKind.SERVER });
     return asyncLocalStorage.run(new Map(), async () => {
       const store = asyncLocalStorage.getStore();
       const msg_id = uuidv4();

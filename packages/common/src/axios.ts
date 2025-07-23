@@ -20,7 +20,7 @@ export const onRequest = (
 ): InternalAxiosRequestConfig => {
   const span = trace
     .getTracer("")
-    .startSpan("monoscope-client", { kind: SpanKind.CLIENT });
+    .startSpan("monoscope.http", { kind: SpanKind.CLIENT });
   config.meta = { span };
   return config;
 };
