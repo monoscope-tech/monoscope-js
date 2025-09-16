@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "publish": "pnpm --filter='./packages/*' publish --access public"
+    "publish": "pnpm --filter='./packages/*' publish --access public",
+    "test": "pnpm run -r test"
   },
   "workspaces": [
     "packages/*"

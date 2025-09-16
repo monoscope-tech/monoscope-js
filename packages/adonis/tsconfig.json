@@ -5,7 +5,7 @@
     "rootDir": "./",
     "outDir": "./dist",
     "experimentalDecorators": true,
-    "types": ["@adonisjs/core"],
+    "types": ["@adonisjs/core", "jest"],
     "composite": true,
     "skipLibCheck": true,
     "strict": true,
