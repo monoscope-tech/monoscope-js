@@ -1,6 +1,7 @@
 import { SpanKind, trace } from "@opentelemetry/api";
 import { Exception, Span } from "@opentelemetry/api";
 import { AxiosInstance } from "axios";
+import { AsyncLocalStorage } from "async_hooks";
 
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
