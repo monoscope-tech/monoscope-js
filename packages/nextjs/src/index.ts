@@ -9,4 +9,4 @@ export function reportError(error: Error) {
   return ReportError(error, undefined, asyncLocalStorage);
 }
 
-export { withMonoscopeAppRouter, withMonoscopePagesRouter } from "./main";
+export { withMonoscopeAppRouter, withMonoscopePagesRouter, addAttributesToCurrentSpan } from "./main";

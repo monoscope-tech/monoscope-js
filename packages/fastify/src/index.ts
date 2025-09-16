@@ -8,12 +8,14 @@ import {
   ReportError,
   setAttributes,
   AxiosConfig,
+  addAttributesToCurrentSpan,
 } from "@monoscopetech/common";
 import { SpanKind, trace } from "@opentelemetry/api";
 
 export {
   ReportError as reportError,
   observeAxios,
+  addAttributesToCurrentSpan,
 } from "@monoscopetech/common";
 
 class Monoscope {
@@ -163,6 +165,7 @@ class Monoscope {
           asyncLocalStorage.getStore()?.get("AT_errors") || [],
           this.#config,
           "JsFastify",
+          undefined,
           undefined
         );
         return data;

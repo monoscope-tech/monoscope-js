@@ -35,7 +35,8 @@ export function setAttributes(
     | `JsAdonis`
     | "JsAxiosOutgoing"
     | "JsNext",
-  parentId: string | undefined
+  parentId: string | undefined,
+  customAttributes?: Record<string, any>
 ) {
   try {
     span.setAttributes({
@@ -78,6 +79,13 @@ export function setAttributes(
         redactHeader(String(value))
       )
     );
+
+    // Set custom attributes if provided
+    if (customAttributes) {
+      Object.entries(customAttributes).forEach(([key, value]) => {
+        span.setAttribute(key, value);
+      });
+    }
   } catch (error) {
     span.recordException(error as Exception);
   } finally {
@@ -132,6 +140,32 @@ export type Config = {
 };
 
 export const asyncLocalStorage = new AsyncLocalStorage<Map<string, any>>();
+
+export function addAttributesToCurrentSpan(
+  attributes: Record<string, any>,
+  alternativeAsyncLocalStorage?: AsyncLocalStorage<Map<string, any>>
+) {
+  const as = alternativeAsyncLocalStorage || asyncLocalStorage;
+  const store = as.getStore();
+  if (!store) {
+    console.warn(
+      "Monoscope: addAttributesToCurrentSpan called outside of middleware scope"
+    );
+    return;
+  }
+
+  const span = store.get("AT_span") as Span | undefined;
+  if (!span) {
+    console.warn(
+      "Monoscope: No active span found to add attributes to"
+    );
+    return;
+  }
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    span.setAttribute(key, value);
+  });
+}
 
 export function ReportError(
   error: any,
