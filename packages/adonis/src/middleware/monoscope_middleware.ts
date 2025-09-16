@@ -54,6 +54,7 @@ export default class MonoscopeMiddleware {
             msgId,
             errors: [],
             config: this.#config,
+            span,
           }
         }
         if (this.#config?.debug) {
@@ -89,6 +90,7 @@ export default class MonoscopeMiddleware {
             ctx?.apitoolkitData.errors || [],
             this.#config,
             'JsAdonis',
+            undefined,
             undefined
           )
         }

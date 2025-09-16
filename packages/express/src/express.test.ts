@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as request from 'supertest';
 import { trace, SpanKind } from '@opentelemetry/api';
-import { Monoscope } from './index';
+import { Monoscope, addAttributesToCurrentSpan } from './index';
 
 describe('Express OpenTelemetry Integration', () => {
   const mockSpan = {
@@ -177,5 +177,34 @@ describe('Express OpenTelemetry Integration', () => {
         'http.target': '/users/123',
       })
     );
+  });
+
+  it('supports adding custom attributes at runtime', async () => {
+    const app = express();
+    const monoscope = new Monoscope({});
+    app.use(monoscope.middleware);
+
+    app.get('/test-custom-attributes', (req: express.Request, res: express.Response) => {
+      // Add custom attributes during request handling
+      addAttributesToCurrentSpan({
+        'user.id': '12345',
+        'user.email': 'test@example.com',
+        'session.id': 'abc-123',
+        'tenant.id': 'tenant-456',
+      });
+      res.json({ success: true });
+    });
+
+    await request(app)
+      .get('/test-custom-attributes')
+      .expect(200);
+      
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    // Verify custom attributes were added to the span
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('user.id', '12345');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('user.email', 'test@example.com');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('session.id', 'abc-123');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('tenant.id', 'tenant-456');
   });
 });

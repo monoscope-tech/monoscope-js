@@ -4,6 +4,7 @@ import {
   setAttributes,
   Config,
   observeAxiosGlobal,
+  addAttributesToCurrentSpan,
 } from "@monoscopetech/common";
 
 import { v4 as uuidv4 } from "uuid";
@@ -12,6 +13,7 @@ import { Application, NextFunction, Request, Response } from "express";
 export {
   ReportError as reportError,
   observeAxios,
+  addAttributesToCurrentSpan,
 } from "@monoscopetech/common";
 
 export class Monoscope {
@@ -48,6 +50,7 @@ export class Monoscope {
       if (store) {
         store.set("AT_msg_id", msg_id);
         store.set("AT_errors", []);
+        store.set("AT_span", span);
       }
       if (this.#config.debug) {
         console.log("Monoscope: expressMiddleware called");
@@ -89,6 +92,7 @@ export class Monoscope {
             asyncLocalStorage.getStore()?.get("AT_errors") || [],
             this.#config,
             "JsExpress",
+            undefined,
             undefined
           );
         } catch (error) {

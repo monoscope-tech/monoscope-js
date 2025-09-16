@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { trace, SpanKind } from '@opentelemetry/api';
 import { withMonoscopeAppRouter, reportError } from './index';
-import { Config } from './main';
+import { Config } from '@monoscopetech/common';
 
 // Type augmentation for global
 declare global {

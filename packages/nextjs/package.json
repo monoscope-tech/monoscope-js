@@ -12,6 +12,7 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
+    "@monoscopetech/common": "workspace:*",
     "uuid": "^11.0.3"
   },
   "keywords": [],

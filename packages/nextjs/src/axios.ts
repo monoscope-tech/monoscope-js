@@ -7,7 +7,8 @@ import axios, {
 } from "axios";
 import { v4 as uuidv4 } from "uuid";
 
-import { asyncLocalStorage, Config, setAttributes } from "./main";
+import { asyncLocalStorage } from "./main";
+import { Config, setAttributes } from "@monoscopetech/common";
 import { SpanKind, trace } from "@opentelemetry/api";
 
 declare module "axios" {
@@ -99,7 +100,8 @@ function processResponse(
     [],
     config,
     "JsAxiosOutgoing",
-    parentId
+    parentId,
+    undefined
   );
 }
 
