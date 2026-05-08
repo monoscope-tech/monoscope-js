@@ -14,6 +14,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monoscope-tech/monoscope-js.git",
+    "directory": "packages/express"
+  },
   "dependencies": {
     "@monoscopetech/common": "workspace:*",
     "uuid": "^11.0.3"

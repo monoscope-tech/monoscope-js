@@ -77,5 +77,10 @@
   "prettier": "@adonisjs/prettier-config",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monoscope-tech/monoscope-js.git",
+    "directory": "packages/adonis"
   }
 }
