@@ -2,45 +2,35 @@ name: Publish Package
 
 on:
   push:
-    branches:
-      - "main"
+    branches: ["main"]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for npm Trusted Publishing (OIDC)
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8
-          run_install: |
-            - args: [--no-frozen-lockfile]
+          version: 9
+          run_install: false
 
-      - name: Setup git
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
+      # Trusted publishing requires npm >= 11.5.1
+      - run: npm install -g npm@latest
 
-      - name: Setup npm
-        run: |
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm run -r build
+      - run: pnpm run -r test
 
-      - name: Install dependencies
-        run: pnpm install
-      - name: Build package
-        run: pnpm run -r build
-
-      - name: Run tests
-        run: pnpm run test
-
-      - name: Publish package
-        run: pnpm run publish
+      - name: Publish
+        run: pnpm --filter='./packages/*' publish --access public --no-git-checks --provenance
