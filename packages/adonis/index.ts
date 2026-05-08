@@ -1,5 +1,12 @@
 export { configure } from './configure.js'
-import { ReportError, observeAxios as as, AxiosConfig, addAttributesToCurrentSpan, setUser, setTenant } from '@monoscopetech/common'
+import {
+  ReportError,
+  observeAxios as as,
+  AxiosConfig,
+  addAttributesToCurrentSpan,
+  setUser,
+  setTenant,
+} from '@monoscopetech/common'
 export { defineConfig } from './src/define_config.js'
 import MonoscopeMiddleware from './src/middleware/monoscope_middleware.js'
 import { HttpContext } from '@adonisjs/core/http'
