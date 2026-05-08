@@ -25,8 +25,10 @@ jobs:
           version: 9
           run_install: false
 
-      # Trusted publishing requires npm >= 11.5.1
-      - run: npm install -g npm@latest
+      # Trusted publishing requires npm >= 11.5.1.
+      # --force avoids the in-place self-upgrade MODULE_NOT_FOUND on the
+      # Node 22 runner image (npm starts removing its own files mid-install).
+      - run: npm install -g npm@latest --force
 
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm run -r build
