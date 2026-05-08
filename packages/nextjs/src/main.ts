@@ -2,7 +2,7 @@ import { SpanKind, trace } from "@opentelemetry/api";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import { setAttributes as commonSetAttributes, Config, ReportError as commonReportError, addAttributesToCurrentSpan as commonAddAttributes } from "@monoscopetech/common";
+import { setAttributes as commonSetAttributes, Config, ReportError as commonReportError, addAttributesToCurrentSpan as commonAddAttributes, setUser as commonSetUser, setTenant as commonSetTenant, MonoscopeUser, MonoscopeTenant } from "@monoscopetech/common";
 import { AsyncLocalStorage } from "async_hooks";
 
 export const asyncLocalStorage = new AsyncLocalStorage<Map<string, any>>();
@@ -148,6 +148,14 @@ function safeJSon(obj: any) {
 
 export function addAttributesToCurrentSpan(attributes: Record<string, any>) {
   return commonAddAttributes(attributes, asyncLocalStorage);
+}
+
+export function setUser(user: MonoscopeUser) {
+  return commonSetUser(user, asyncLocalStorage);
+}
+
+export function setTenant(tenant: MonoscopeTenant) {
+  return commonSetTenant(tenant, asyncLocalStorage);
 }
 
 export function ReportError(

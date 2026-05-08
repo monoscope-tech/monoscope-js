@@ -1,7 +1,7 @@
 {
   "name": "@monoscopetech/adonis",
   "description": "",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "index.js",
   "type": "module",
   "files": [
@@ -27,8 +27,7 @@
     "copy:files": "copyfiles \"stubs/**/*.stub\" dist",
     "copy:instructions_md": "copyfiles \"instructions.md\" dist",
     "build": "pnpm run compile",
-    "prepublishOnly": "pnpm run build",
-    "version": "git add -A ."
+    "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
     "@adonisjs/core": "^6.9.0",

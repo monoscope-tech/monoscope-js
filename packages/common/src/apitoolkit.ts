@@ -163,8 +163,47 @@ export function addAttributesToCurrentSpan(
   }
 
   Object.entries(attributes).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
     span.setAttribute(key, value);
   });
+}
+
+export type MonoscopeUser = {
+  id?: string | number;
+  email?: string;
+  name?: string;
+};
+
+export type MonoscopeTenant = {
+  id?: string | number;
+  name?: string;
+};
+
+export function setUser(
+  user: MonoscopeUser,
+  alternativeAsyncLocalStorage?: AsyncLocalStorage<Map<string, any>>
+) {
+  addAttributesToCurrentSpan(
+    {
+      "user.id": user.id,
+      "user.email": user.email,
+      "user.full_name": user.name,
+    },
+    alternativeAsyncLocalStorage
+  );
+}
+
+export function setTenant(
+  tenant: MonoscopeTenant,
+  alternativeAsyncLocalStorage?: AsyncLocalStorage<Map<string, any>>
+) {
+  addAttributesToCurrentSpan(
+    {
+      "tenant.id": tenant.id,
+      "tenant.name": tenant.name,
+    },
+    alternativeAsyncLocalStorage
+  );
 }
 
 export function ReportError(

@@ -16,6 +16,8 @@ export {
   ReportError as reportError,
   observeAxios,
   addAttributesToCurrentSpan,
+  setUser,
+  setTenant,
 } from "@monoscopetech/common";
 
 class Monoscope {
