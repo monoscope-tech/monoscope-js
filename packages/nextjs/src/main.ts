@@ -2,7 +2,7 @@ import { SpanKind, trace } from "@opentelemetry/api";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import { setAttributes as commonSetAttributes, Config, ReportError as commonReportError, addAttributesToCurrentSpan as commonAddAttributes, setUser as commonSetUser, setTenant as commonSetTenant, MonoscopeUser, MonoscopeTenant } from "@monoscopetech/common";
+import { setAttributes as commonSetAttributes, Config, ReportError as commonReportError, addAttributesToCurrentSpan as commonAddAttributes, setUser as commonSetUser, setTenant as commonSetTenant, setSession as commonSetSession, applySessionFromBaggage, MonoscopeUser, MonoscopeTenant } from "@monoscopetech/common";
 import { AsyncLocalStorage } from "async_hooks";
 
 export const asyncLocalStorage = new AsyncLocalStorage<Map<string, any>>();
@@ -27,6 +27,7 @@ export function withMonoscopeAppRouter(
         store.set("AT_errors", []);
         store.set("AT_span", span);
       }
+      applySessionFromBaggage(span);
       const reqClon = request.clone() as NextRequest;
       const response = await handler(request as NextRequest, params);
 
@@ -82,6 +83,7 @@ export function withMonoscopePagesRouter(
         store.set("AT_errors", []);
         store.set("AT_span", span);
       }
+      applySessionFromBaggage(span);
       const reqBody = request.body;
 
       let responseBody = "";
@@ -156,6 +158,10 @@ export function setUser(user: MonoscopeUser) {
 
 export function setTenant(tenant: MonoscopeTenant) {
   return commonSetTenant(tenant, asyncLocalStorage);
+}
+
+export function setSession(sessionId: string) {
+  return commonSetSession(sessionId, asyncLocalStorage);
 }
 
 export function ReportError(

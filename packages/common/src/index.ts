@@ -6,6 +6,8 @@ export {
   addAttributesToCurrentSpan,
   setUser,
   setTenant,
+  setSession,
+  applySessionFromBaggage,
   MonoscopeUser,
   MonoscopeTenant,
 } from "./apitoolkit";

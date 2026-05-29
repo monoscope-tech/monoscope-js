@@ -6,6 +6,7 @@ import {
   addAttributesToCurrentSpan,
   setUser,
   setTenant,
+  setSession,
 } from '@monoscopetech/common'
 export { defineConfig } from './src/define_config.js'
 import MonoscopeMiddleware from './src/middleware/monoscope_middleware.js'
@@ -20,7 +21,7 @@ export function reportError(err: any) {
   ReportError(err, HttpContext)
 }
 
-export { addAttributesToCurrentSpan, setUser, setTenant }
+export { addAttributesToCurrentSpan, setUser, setTenant, setSession }
 
 const Monoscope = MonoscopeMiddleware
 export default Monoscope

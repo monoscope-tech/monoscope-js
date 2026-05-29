@@ -9,6 +9,7 @@ import {
   setAttributes,
   AxiosConfig,
   addAttributesToCurrentSpan,
+  applySessionFromBaggage,
 } from "@monoscopetech/common";
 import { SpanKind, trace } from "@opentelemetry/api";
 
@@ -18,6 +19,7 @@ export {
   addAttributesToCurrentSpan,
   setUser,
   setTenant,
+  setSession,
 } from "@monoscopetech/common";
 
 class Monoscope {
@@ -101,6 +103,7 @@ class Monoscope {
           asyncLocalStorage.getStore()!.set("AT_errors", []);
           const msg_id: string = uuidv4();
           asyncLocalStorage.getStore()!.set("AT_msg_id", msg_id);
+          applySessionFromBaggage(span);
         } catch (error) {
           if (this.#config.debug) {
             console.log("apitoolkit: error in preHandler hook");

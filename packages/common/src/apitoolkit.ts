@@ -1,6 +1,6 @@
 import * as jsonpath from "jsonpath";
 import { AsyncLocalStorage } from "async_hooks";
-import { Exception, Span } from "@opentelemetry/api";
+import { context, Exception, propagation, Span } from "@opentelemetry/api";
 import { AxiosInstance } from "axios";
 export { AxiosInstance } from "axios";
 // ATError is the Apitoolkit error type/object
@@ -204,6 +204,30 @@ export function setTenant(
     },
     alternativeAsyncLocalStorage
   );
+}
+
+export function setSession(
+  sessionId: string,
+  alternativeAsyncLocalStorage?: AsyncLocalStorage<Map<string, any>>
+) {
+  addAttributesToCurrentSpan(
+    { "session.id": sessionId },
+    alternativeAsyncLocalStorage
+  );
+}
+
+// Reads session.id from W3C baggage on the active context (populated by the
+// browser SDK on outbound requests) and tags the request span. Called from
+// each framework middleware after the span is created — no user code needed
+// when the browser SDK is in use. Safe no-op when baggage is absent.
+export function applySessionFromBaggage(span: Span) {
+  try {
+    const baggage = propagation.getBaggage(context.active());
+    const entry = baggage?.getEntry("session.id");
+    if (entry?.value) span.setAttribute("session.id", entry.value);
+  } catch {
+    /* never throw from middleware */
+  }
 }
 
 export function ReportError(

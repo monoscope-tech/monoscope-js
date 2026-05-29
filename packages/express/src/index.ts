@@ -5,6 +5,7 @@ import {
   Config,
   observeAxiosGlobal,
   addAttributesToCurrentSpan,
+  applySessionFromBaggage,
 } from "@monoscopetech/common";
 
 import { v4 as uuidv4 } from "uuid";
@@ -16,6 +17,7 @@ export {
   addAttributesToCurrentSpan,
   setUser,
   setTenant,
+  setSession,
 } from "@monoscopetech/common";
 
 export class Monoscope {
@@ -54,6 +56,7 @@ export class Monoscope {
         store.set("AT_errors", []);
         store.set("AT_span", span);
       }
+      applySessionFromBaggage(span);
       if (this.#config.debug) {
         console.log("Monoscope: expressMiddleware called");
       }

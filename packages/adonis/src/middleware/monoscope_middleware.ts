@@ -11,6 +11,7 @@ import {
   Config,
   AxiosConfig,
   setAttributes,
+  applySessionFromBaggage,
 } from '@monoscopetech/common'
 
 const defaultConfig = {
@@ -57,6 +58,7 @@ export default class MonoscopeMiddleware {
             span,
           }
         }
+        applySessionFromBaggage(span)
         if (this.#config?.debug) {
           console.log('APIToolkit: adonisjs middleware called')
         }
