@@ -20,7 +20,7 @@
     "directory": "packages/nextjs"
   },
   "dependencies": {
-    "@monoscopetech/common": "1.3.0",
+    "@monoscopetech/common": "workspace:*",
     "axios": "^1.12.2",
     "uuid": "^11.0.3"
   },

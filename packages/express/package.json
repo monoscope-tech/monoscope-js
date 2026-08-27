@@ -20,7 +20,7 @@
     "directory": "packages/express"
   },
   "dependencies": {
-    "@monoscopetech/common": "1.3.0",
+    "@monoscopetech/common": "workspace:*",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
