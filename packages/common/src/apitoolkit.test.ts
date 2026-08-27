@@ -1,5 +1,5 @@
 import { SpanStatusCode } from '@opentelemetry/api';
-import { setAttributes, ReportError, ATError, asyncLocalStorage, Config } from './apitoolkit';
+import { setAttributes, ReportError, ATError, asyncLocalStorage, Config, redactFields } from './apitoolkit';
 
 describe('setAttributes', () => {
   const mockSpan = {
@@ -174,6 +174,21 @@ describe('setAttributes', () => {
     // bodies — the ones carrying tokens, session ids and emails — went out unredacted.
     const decodedResponse = JSON.parse(Buffer.from(attrs['http.response.body'], 'base64').toString());
     expect(decodedResponse.token).toBe('[CLIENT_REDACTED]');
+  });
+
+  // Frameworks do not agree on what a body is: Next's Pages Router hands the wrapper an
+  // already-parsed object. That used to fall through JSON.parse -> throw -> return-as-is,
+  // so redaction silently did not happen and the raw payload was exported. Redaction that
+  // no-ops on the wrong input type is worse than none, because it is invisible.
+  it('redacts a body that arrives already parsed, and does not mutate it', () => {
+    const body = { userId: 'u1', creditCard: { creditCardNumber: '4432-8015-6152-0454' } };
+
+    const out = redactFields(body, ['$..creditCard']);
+
+    expect(JSON.parse(out).creditCard).toBe('[CLIENT_REDACTED]');
+    // jsonpath.apply mutates in place; the caller's req.body must survive untouched, or the
+    // application reads blanked fields it is about to use.
+    expect(body.creditCard.creditCardNumber).toBe('4432-8015-6152-0454');
   });
 
   // The two lists are independent: a path configured for one must not redact the other, or
