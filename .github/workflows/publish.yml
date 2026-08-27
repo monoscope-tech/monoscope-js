@@ -34,3 +34,10 @@ jobs:
 
       - name: Publish
         run: pnpm --filter='./packages/*' publish --access public --no-git-checks --provenance
+
+      # Install each published package alone, with --omit=dev, and import it. A build and a
+      # test both run inside the dev tree, where an undeclared dependency is present anyway --
+      # so neither can catch the defect that shipped axios in 1.1.1 and 500'd every request to
+      # the demo's frontend until rollback. Only a clean production install can.
+      - name: Verify each published package installs and imports on its own
+        run: node scripts/verify-production-install.mjs

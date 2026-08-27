@@ -114,6 +114,9 @@ importers:
 
   packages/common:
     dependencies:
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -124,9 +127,6 @@ importers:
         specifier: ^11.0.3
         version: 11.1.0
     devDependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
@@ -154,13 +154,13 @@ importers:
       '@monoscopetech/common':
         specifier: workspace:*
         version: link:../common
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
       uuid:
         specifier: ^11.0.3
         version: 11.1.0
     devDependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -200,13 +200,13 @@ importers:
       '@monoscopetech/common':
         specifier: workspace:*
         version: link:../common
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
       uuid:
         specifier: ^11.0.3
         version: 11.1.0
     devDependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
@@ -237,6 +237,9 @@ importers:
       '@monoscopetech/common':
         specifier: workspace:*
         version: link:../common
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
       axios:
         specifier: ^1.12.2
         version: 1.12.2
@@ -244,9 +247,6 @@ importers:
         specifier: ^11.0.3
         version: 11.1.0
     devDependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/jest':
         specifier: ^30.0.0
         version: 30.0.0
