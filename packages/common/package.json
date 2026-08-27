@@ -20,6 +20,7 @@
     "directory": "packages/common"
   },
   "dependencies": {
+    "axios": "^1.12.2",
     "jsonpath": "^1.1.1",
     "uuid": "^11.0.3"
   },
