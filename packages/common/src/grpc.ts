@@ -59,6 +59,12 @@ export interface GrpcConfig extends Config {
   method: string;
 }
 
+// Capture is opt-in, matching every other integration in this SDK and the Go one. It has to be:
+// bodies are the expensive part of a span and the thing most likely to carry something the
+// operator did not intend to store, so turning them on should be a decision rather than a
+// default. Leaving it always-on would also mean the only way to stop capturing is to remove
+// the wrapper.
+
 type GrpcCallback = (err: any, response?: any) => void;
 type GrpcHandler = (call: { request: any }, callback: GrpcCallback) => void;
 
@@ -99,8 +105,10 @@ export function observeGrpc(config: GrpcConfig, handler: GrpcHandler): GrpcHandl
             config.method,
             "",
             config.method,
-            toBodyString(call.request),
-            toBodyString(err ? { error: err.message } : response),
+            config.captureRequestBody ? toBodyString(call.request) : "",
+            config.captureResponseBody
+              ? toBodyString(err ? { error: err.message } : response)
+              : "",
             [] as ATError[],
             config,
             "JsGrpc",

@@ -33,9 +33,11 @@ beforeEach(() => {
 
 const METHOD = "/oteldemo.PaymentService/Charge";
 
+const CAPTURE = { method: METHOD, captureRequestBody: true, captureResponseBody: true };
+
 test("captures request and response bodies as base64 on a monoscope.http span", done => {
   const handler = (_call: any, cb: any) => cb(null, { transactionId: "txn-1" });
-  observeGrpc({ method: METHOD }, handler)({ request: { a: 1 } }, (err, res) => {
+  observeGrpc(CAPTURE, handler)({ request: { a: 1 } }, (err, res) => {
     expect(err).toBeNull();
     expect(res).toEqual({ transactionId: "txn-1" });
     expect(decode("http.request.body")).toEqual({ a: 1 });
@@ -54,7 +56,7 @@ test("captures request and response bodies as base64 on a monoscope.http span", 
 // where redaction previously did JSON.parse on an object, threw, and returned it untouched.
 test("redacts a decoded request message using the caller's JSONPath config", done => {
   const config = {
-    method: METHOD,
+    ...CAPTURE,
     redactRequestBody: ["$.creditCard.creditCardNumber", "$.creditCard.creditCardCvv"],
   };
   const request = {
@@ -72,7 +74,7 @@ test("redacts a decoded request message using the caller's JSONPath config", don
 
 test("collapses a protobuf Long so it is not captured as {low, high, unsigned}", done => {
   const request = { amount: { units: { low: 42, high: 0, unsigned: false } } };
-  observeGrpc({ method: METHOD }, (_c: any, cb: any) => cb(null, {}))({ request }, () => {
+  observeGrpc(CAPTURE, (_c: any, cb: any) => cb(null, {}))({ request }, () => {
     expect(decode("http.request.body")).toEqual({ amount: { units: "42" } });
     done();
   });
@@ -80,7 +82,7 @@ test("collapses a protobuf Long so it is not captured as {low, high, unsigned}",
 
 test("captures the error path and passes the error through unchanged", done => {
   const failure = Object.assign(new Error("card declined"), { code: 7 });
-  observeGrpc({ method: METHOD }, (_c: any, cb: any) => cb(failure))({ request: {} }, err => {
+  observeGrpc(CAPTURE, (_c: any, cb: any) => cb(failure))({ request: {} }, err => {
     expect(err).toBe(failure); // the caller's own error object, not a wrapper
     expect(decode("http.response.body")).toEqual({ error: "card declined" });
     expect(attrs["http.response.status_code"]).toBe(500);
@@ -92,7 +94,7 @@ test("captures the error path and passes the error through unchanged", done => {
 
 test("a handler that throws synchronously still ends the span and reaches the callback", done => {
   const boom = new Error("boom");
-  observeGrpc({ method: METHOD }, () => {
+  observeGrpc(CAPTURE, () => {
     throw boom;
   })({ request: {} }, err => {
     expect(err).toBe(boom);
@@ -104,12 +106,26 @@ test("a handler that throws synchronously still ends the span and reaches the ca
 test("an unserialisable request degrades to no body rather than failing the RPC", done => {
   const cyclic: any = { a: 1 };
   cyclic.self = cyclic;
-  observeGrpc({ method: METHOD }, (_c: any, cb: any) => cb(null, { ok: true }))(
+  observeGrpc(CAPTURE, (_c: any, cb: any) => cb(null, { ok: true }))(
     { request: cyclic },
     (err, res) => {
       expect(err).toBeNull();
       expect(res).toEqual({ ok: true });
       expect(Buffer.from(attrs["http.request.body"], "base64").toString()).toBe("");
+      done();
+    }
+  );
+});
+
+// Capture is opt-in, so the default must record nothing. Without this the only way to stop
+// capturing bodies would be to remove the wrapper entirely.
+test("records no bodies unless capture is switched on", done => {
+  observeGrpc({ method: METHOD }, (_c: any, cb: any) => cb(null, { secret: "s" }))(
+    { request: { card: "4432-8015-6152-0454" } },
+    () => {
+      expect(Buffer.from(attrs["http.request.body"], "base64").toString()).toBe("");
+      expect(Buffer.from(attrs["http.response.body"], "base64").toString()).toBe("");
+      expect(attrs["rpc.system"]).toBe("grpc"); // metadata is still recorded
       done();
     }
   );
