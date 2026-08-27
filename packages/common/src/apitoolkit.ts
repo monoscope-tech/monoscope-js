@@ -34,7 +34,8 @@ export function setAttributes(
     | `JsFastify`
     | `JsAdonis`
     | "JsAxiosOutgoing"
-    | "JsNext",
+    | "JsNext"
+    | "JsGrpc",
   parentId: string | undefined,
   customAttributes?: Record<string, any>
 ) {
