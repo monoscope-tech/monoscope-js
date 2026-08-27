@@ -12,3 +12,4 @@ export {
   MonoscopeTenant,
 } from "./apitoolkit";
 export { observeAxios, observeAxiosGlobal, AxiosConfig } from "./axios";
+export { observeGrpc, GrpcConfig } from "./grpc";
