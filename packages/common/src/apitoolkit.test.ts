@@ -1,5 +1,5 @@
 import { SpanStatusCode } from '@opentelemetry/api';
-import { setAttributes, ReportError, ATError, asyncLocalStorage, Config } from './apitoolkit';
+import { setAttributes, ReportError, ATError, asyncLocalStorage, Config, redactFields } from './apitoolkit';
 
 describe('setAttributes', () => {
   const mockSpan = {
@@ -169,9 +169,65 @@ describe('setAttributes', () => {
     expect(decodedRequest.username).toBe('test');
     expect(decodedRequest.password).toBe('[CLIENT_REDACTED]');
 
-    // There's a bug in the implementation - it uses redactRequestBody for response body too
+    // redactResponseBody has to apply to the response. It was previously passed
+    // redactRequestBody, so every path configured here was silently ignored and response
+    // bodies — the ones carrying tokens, session ids and emails — went out unredacted.
     const decodedResponse = JSON.parse(Buffer.from(attrs['http.response.body'], 'base64').toString());
-    expect(decodedResponse.token).toBe('jwt-token'); // Not redacted due to bug
+    expect(decodedResponse.token).toBe('[CLIENT_REDACTED]');
+  });
+
+  // Frameworks do not agree on what a body is: Next's Pages Router hands the wrapper an
+  // already-parsed object. That used to fall through JSON.parse -> throw -> return-as-is,
+  // so redaction silently did not happen and the raw payload was exported. Redaction that
+  // no-ops on the wrong input type is worse than none, because it is invisible.
+  it('redacts a body that arrives already parsed, and does not mutate it', () => {
+    const body = { userId: 'u1', creditCard: { creditCardNumber: '4432-8015-6152-0454' } };
+
+    const out = redactFields(body, ['$..creditCard']);
+
+    expect(JSON.parse(out).creditCard).toBe('[CLIENT_REDACTED]');
+    // jsonpath.apply mutates in place; the caller's req.body must survive untouched, or the
+    // application reads blanked fields it is about to use.
+    expect(body.creditCard.creditCardNumber).toBe('4432-8015-6152-0454');
+  });
+
+  // The two lists are independent: a path configured for one must not redact the other, or
+  // "redact this from responses" would quietly start blanking request fields too.
+  it('keeps the request and response redaction lists separate', () => {
+    const config: Config = {
+      redactHeaders: [],
+      redactRequestBody: ['$.password'],
+      redactResponseBody: ['$.token'],
+    };
+
+    setAttributes(
+      mockSpan as any,
+      'example.com',
+      200,
+      {},
+      {},
+      {},
+      {},
+      'POST',
+      '/auth',
+      'msg-102',
+      '/auth',
+      JSON.stringify({ username: 'test', password: 'secret', token: 'req-token' }),
+      JSON.stringify({ token: 'jwt-token', password: 'resp-password' }),
+      [],
+      config,
+      'JsExpress',
+      undefined
+    );
+
+    const attrs = mockSpan.setAttributes.mock.calls[0][0];
+    const req = JSON.parse(Buffer.from(attrs['http.request.body'], 'base64').toString());
+    const res = JSON.parse(Buffer.from(attrs['http.response.body'], 'base64').toString());
+
+    expect(req.password).toBe('[CLIENT_REDACTED]');
+    expect(req.token).toBe('req-token');
+    expect(res.token).toBe('[CLIENT_REDACTED]');
+    expect(res.password).toBe('resp-password');
   });
 });
 

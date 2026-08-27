@@ -54,7 +54,7 @@ export function setAttributes(
         redactFields(reqBody, config.redactRequestBody || [])
       ).toString("base64"),
       "http.response.body": Buffer.from(
-        redactFields(respBody, config.redactRequestBody || [])
+        redactFields(respBody, config.redactResponseBody || [])
       ).toString("base64"),
       "apitoolkit.errors": JSON.stringify(errors),
       "apitoolkit.service_version": config.serviceVersion || "",
@@ -112,9 +112,27 @@ export function redactHeaders(
   return redactedHeaders;
 }
 
-export function redactFields(body: string, fieldsToRedact: string[]): string {
+/**
+ * Redact the given JSONPaths out of a JSON body.
+ *
+ * `body` is typed as a string, but callers hand it whatever their framework gives them and
+ * some frameworks give an already-parsed object — Next's Pages Router populates
+ * `req.body` as an object, for instance. That used to fall straight through: `JSON.parse`
+ * of an object stringifies it to `"[object Object]"`, throws, and the catch returned the
+ * body untouched — so redaction silently did not happen and the raw payload was exported.
+ * A redactor that no-ops on the wrong input type is worse than one that fails loudly.
+ *
+ * Accepting objects here fixes it for every SDK at once rather than at each call site.
+ */
+export function redactFields(body: unknown, fieldsToRedact: string[]): string {
+  const asString = () => (typeof body === "string" ? body : JSON.stringify(body) ?? "");
   try {
-    const bodyOB = JSON.parse(body);
+    // Parse a string; deep-copy an object. jsonpath.apply mutates in place, and the object
+    // handed in is the framework's own req.body — redacting it directly would blank fields
+    // the application itself is about to read.
+    const bodyOB =
+      typeof body === "string" ? JSON.parse(body) : JSON.parse(JSON.stringify(body));
+    if (bodyOB === null || typeof bodyOB !== "object") return asString();
     fieldsToRedact.forEach((path) => {
       jsonpath.apply(bodyOB, path, function () {
         return "[CLIENT_REDACTED]";
@@ -122,7 +140,7 @@ export function redactFields(body: string, fieldsToRedact: string[]): string {
     });
     return JSON.stringify(bodyOB);
   } catch (error) {
-    return body;
+    return asString();
   }
 }
 
