@@ -169,9 +169,50 @@ describe('setAttributes', () => {
     expect(decodedRequest.username).toBe('test');
     expect(decodedRequest.password).toBe('[CLIENT_REDACTED]');
 
-    // There's a bug in the implementation - it uses redactRequestBody for response body too
+    // redactResponseBody has to apply to the response. It was previously passed
+    // redactRequestBody, so every path configured here was silently ignored and response
+    // bodies — the ones carrying tokens, session ids and emails — went out unredacted.
     const decodedResponse = JSON.parse(Buffer.from(attrs['http.response.body'], 'base64').toString());
-    expect(decodedResponse.token).toBe('jwt-token'); // Not redacted due to bug
+    expect(decodedResponse.token).toBe('[CLIENT_REDACTED]');
+  });
+
+  // The two lists are independent: a path configured for one must not redact the other, or
+  // "redact this from responses" would quietly start blanking request fields too.
+  it('keeps the request and response redaction lists separate', () => {
+    const config: Config = {
+      redactHeaders: [],
+      redactRequestBody: ['$.password'],
+      redactResponseBody: ['$.token'],
+    };
+
+    setAttributes(
+      mockSpan as any,
+      'example.com',
+      200,
+      {},
+      {},
+      {},
+      {},
+      'POST',
+      '/auth',
+      'msg-102',
+      '/auth',
+      JSON.stringify({ username: 'test', password: 'secret', token: 'req-token' }),
+      JSON.stringify({ token: 'jwt-token', password: 'resp-password' }),
+      [],
+      config,
+      'JsExpress',
+      undefined
+    );
+
+    const attrs = mockSpan.setAttributes.mock.calls[0][0];
+    const req = JSON.parse(Buffer.from(attrs['http.request.body'], 'base64').toString());
+    const res = JSON.parse(Buffer.from(attrs['http.response.body'], 'base64').toString());
+
+    expect(req.password).toBe('[CLIENT_REDACTED]');
+    expect(req.token).toBe('req-token');
+    expect(res.token).toBe('[CLIENT_REDACTED]');
+    expect(res.password).toBe('resp-password');
   });
 });
 

@@ -54,7 +54,7 @@ export function setAttributes(
         redactFields(reqBody, config.redactRequestBody || [])
       ).toString("base64"),
       "http.response.body": Buffer.from(
-        redactFields(respBody, config.redactRequestBody || [])
+        redactFields(respBody, config.redactResponseBody || [])
       ).toString("base64"),
       "apitoolkit.errors": JSON.stringify(errors),
       "apitoolkit.service_version": config.serviceVersion || "",
