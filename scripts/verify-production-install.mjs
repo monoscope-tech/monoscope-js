@@ -34,8 +34,11 @@ const packages = [
 const root = new URL('..', import.meta.url).pathname
 const failures = []
 
-// npm serves a just-published version from a CDN that can lag the publish by a few seconds.
-const withRetry = (fn, attempts = 5) => {
+// npm serves a just-published version from a CDN that can lag the publish, and not uniformly:
+// on the 1.3.1 release four packages resolved immediately while @monoscopetech/next was still
+// 404ing 37s later. The budget below (~84s) is sized for that, because a gate that reports a
+// successful publish as broken gets ignored, and then it is not a gate.
+const withRetry = (fn, attempts = 8) => {
   for (let i = 1; ; i++) {
     try {
       return fn()
