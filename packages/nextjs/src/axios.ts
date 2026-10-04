@@ -38,21 +38,16 @@ function processResponse(
   nextAsyncLocalStorage: any | undefined,
   urlWildcard: string | undefined
 ) {
-  let req: any = response.config;
-  let res: AxiosResponse | undefined;
-  if (response instanceof Error) {
-    res = response.response;
-    req = response.request;
-  } else {
-    res = response;
-  }
+  const req = response.config;
+  if (!req?.meta?.span) return;
+  const res: AxiosResponse | undefined = response instanceof Error ? response.response : response;
 
   const reqBody =
     typeof req?.data === "string" ? req.data : JSON.stringify(req?.data || {});
   const respBody =
     typeof res?.data === "string" ? res?.data : JSON.stringify(res?.data || {});
 
-  const span = response.config?.meta.span;
+  const span = req.meta.span;
   const {
     path,
     rawUrl,
