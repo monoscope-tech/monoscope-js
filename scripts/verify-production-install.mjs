@@ -60,7 +60,7 @@ for (const { dir, importable } of packages) {
     execSync('npm init -y', { cwd: work, stdio: 'ignore' })
     // --omit=dev is the whole point: devDependencies must not be what makes it importable.
     withRetry(() =>
-      execSync(`npm install --omit=dev --no-audit --no-fund ${name}@${version}`, {
+      execSync(`npm install --omit=dev --no-audit --no-fund --prefer-online ${name}@${version}`, {
         cwd: work,
         stdio: 'pipe',
       })
