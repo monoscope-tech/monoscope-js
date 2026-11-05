@@ -73,9 +73,10 @@ describe('setAttributes', () => {
       {
         'authorization': 'Bearer secret',
         'cookie': 'session=abc123',
-        'x-api-key': 'my-key',
+        'X-Api-Key': 'my-key',
+        'x-public': 'visible',
       },
-      {},
+      { 'set-cookie': 'session=xyz' },
       'POST',
       '/login',
       'msg-456',
@@ -88,11 +89,11 @@ describe('setAttributes', () => {
       undefined
     );
 
-    // The redaction logic has a bug - it checks the value instead of the header name
-    // So headers won't actually be redacted in the current implementation
-    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.authorization', 'Bearer secret');
-    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.cookie', 'session=abc123');
-    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-api-key', 'my-key');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.authorization', '[CLIENT_REDACTED]');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.cookie', '[CLIENT_REDACTED]');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.X-Api-Key', '[CLIENT_REDACTED]');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.response.header.set-cookie', '[CLIENT_REDACTED]');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-public', 'visible');
   });
 
   it('handles errors correctly', () => {

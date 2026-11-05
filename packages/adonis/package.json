@@ -1,7 +1,7 @@
 {
   "name": "@monoscopetech/adonis",
   "description": "",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "main": "index.js",
   "type": "module",
   "files": [

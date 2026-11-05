@@ -140,16 +140,7 @@ describe('Express OpenTelemetry Integration', () => {
     
     await new Promise(resolve => setTimeout(resolve, 50));
 
-    // Headers are set as individual attributes
-    const xApiKeyCalls = mockSpan.setAttribute.mock.calls.filter(
-      call => call[0] === 'http.request.header.x-api-key'
-    );
-    
-    const xPublicCalls = mockSpan.setAttribute.mock.calls.filter(
-      call => call[0] === 'http.request.header.x-public'  
-    );
-
-    // The middleware sets headers individually
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-api-key', '[CLIENT_REDACTED]');
     expect(mockSpan.setAttribute).toHaveBeenCalledWith(
       'http.request.header.x-public',
       'public-value'

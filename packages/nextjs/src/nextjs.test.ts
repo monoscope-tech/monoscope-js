@@ -157,9 +157,7 @@ describe('Next.js OpenTelemetry Integration', () => {
 
     await wrappedHandler(request, {} as any);
 
-    // The redaction logic has a bug - it checks the value instead of the header name
-    // So the header won't actually be redacted in the current implementation
-    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-api-key', 'secret-key');
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-api-key', '[CLIENT_REDACTED]');
 
     const attrs = mockSpan.setAttributes.mock.calls[0][0];
     
