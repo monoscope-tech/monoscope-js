@@ -13,6 +13,8 @@ export type ATError = {
   stack_trace: string;
 };
 
+const DEFAULT_REDACTED_HEADERS = ["authorization", "cookie", "set-cookie", "proxy-authorization"];
+
 export function setAttributes(
   span: Span,
   host: string,
@@ -62,24 +64,18 @@ export function setAttributes(
       "apitoolkit.tags": config.tags || [],
     });
 
-    const redactHeader = (header: string) =>
-      config.redactHeaders?.includes(header.toLowerCase()) ||
-      ["cookies", "authorization"].includes(header.toLowerCase())
-        ? "[CLIENT_REDACTED]"
-        : header;
-
-    Object.entries(reqHeaders).forEach(([header, value]) =>
-      span.setAttribute(
-        `http.request.header.${header}`,
-        redactHeader(String(value))
-      )
+    const redacted = new Set(
+      [...(config.redactHeaders || []), ...DEFAULT_REDACTED_HEADERS].map((h) => h.toLowerCase())
     );
-    Object.entries(respHeaders).forEach(([header, value]) =>
-      span.setAttribute(
-        `http.response.header.${header}`,
-        redactHeader(String(value))
-      )
-    );
+    const setHeaders = (prefix: string, headers: Record<string, any>) =>
+      Object.entries(headers).forEach(([name, value]) =>
+        span.setAttribute(
+          `${prefix}.${name}`,
+          redacted.has(name.toLowerCase()) ? "[CLIENT_REDACTED]" : String(value)
+        )
+      );
+    setHeaders("http.request.header", reqHeaders);
+    setHeaders("http.response.header", respHeaders);
 
     // Set custom attributes if provided
     if (customAttributes) {
@@ -92,25 +88,6 @@ export function setAttributes(
   } finally {
     span.end();
   }
-}
-
-export function redactHeaders(
-  headers: Map<string, string[]>,
-  headersToRedact: string[]
-) {
-  const redactedHeaders: { [key: string]: string[] } = {};
-  const headersToRedactLowerCase = headersToRedact.map((header) =>
-    header.toLowerCase()
-  );
-
-  for (const [key, value] of headers) {
-    const lowerKey = key.toLowerCase();
-    const isRedactKey =
-      headersToRedactLowerCase.includes(lowerKey) || lowerKey === "cookie";
-    redactedHeaders[key] = isRedactKey ? ["[CLIENT_REDACTED]"] : value;
-  }
-
-  return redactedHeaders;
 }
 
 /**

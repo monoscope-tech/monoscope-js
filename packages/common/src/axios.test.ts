@@ -11,7 +11,7 @@ it("uses Axios request config after a network error without recording a syntheti
   const requestConfig = {
     url: "https://api.example.com/orders",
     method: "post",
-    headers: AxiosHeaders.from({ "x-request-id": "req-1" }),
+    headers: AxiosHeaders.from({ "x-request-id": "req-1", Authorization: "Bearer abc" }),
     meta: { span },
   } as InternalAxiosRequestConfig;
   const error = new AxiosError("socket hang up", "ECONNRESET", requestConfig, {});
@@ -24,5 +24,6 @@ it("uses Axios request config after a network error without recording a syntheti
     "net.host.name": "api.example.com",
   }));
   expect(span.setAttribute).toHaveBeenCalledWith("http.request.header.x-request-id", "req-1");
+  expect(span.setAttribute).toHaveBeenCalledWith("http.request.header.Authorization", "[CLIENT_REDACTED]");
   expect(span.end).toHaveBeenCalledTimes(1);
 });

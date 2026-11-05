@@ -163,18 +163,7 @@ describe('Fastify OpenTelemetry Integration', () => {
       payload: { username: 'user', password: 'pass123' }
     });
 
-    // Headers are set individually
-    const headerCalls = mockSpan.setAttribute.mock.calls.filter(
-      call => call[0] === 'http.request.header.x-api-key'
-    );
-    
-    // Check if any call has the redacted value
-    const hasRedactedHeader = headerCalls.some(call => call[1] === '[CLIENT_REDACTED]');
-    
-    // If not redacted (due to implementation), just check it was set
-    if (!hasRedactedHeader && headerCalls.length > 0) {
-      expect(headerCalls[0][1]).toBe('secret-key');
-    }
+    expect(mockSpan.setAttribute).toHaveBeenCalledWith('http.request.header.x-api-key', '[CLIENT_REDACTED]');
 
     const attrs = mockSpan.setAttributes.mock.calls[0][0];
     
