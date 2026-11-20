@@ -25,7 +25,7 @@ Setting up open telemetry allows you to send traces, metrics and logs to the API
 Add the following environment variables to your `.env` file:
 
 ```sh
-OTEL_EXPORTER_OTLP_ENDPOINT="http://otelcol.apitoolkit.io:4318"
+OTEL_EXPORTER_OTLP_ENDPOINT="https://otel.monoscopehq.com"
 OTEL_SERVICE_NAME="my-service" # Specifies the name of the service.
 OTEL_RESOURCE_ATTRIBUTES="at-project-key=<YOUR_API_KEY>" # Adds your API KEY to the resource.
 OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf" #Specifies the protocol to use for the OpenTelemetry exporter.
